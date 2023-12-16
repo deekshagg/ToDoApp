@@ -3,10 +3,18 @@
         <title>To-Do App</title>
     </head>
     <body>
-        <ul>
-            {% for d in data %}
-            <li>{{ d.description }}</li>
-            {% endfor %}
-        </ul>
+        <form action="/createUser">
+            <div>
+                <label for="name">Username</label>
+                <input type="text" id="description" name="username">
+            </div>
+            <div>
+                <label for="password">Password</label>
+                <input type="text" id="passwrod" name="password">
+            </div>
+            <div>
+                <input type="submit" id="submit" value="SUBMIT" />
+            </div>
+        </form>
     </body>
 </html>

@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
@@ -13,12 +13,30 @@ class Todo(db.Model):
     def __repr__(self):
         return f'<Todo {Todo.id} {Todo.description}>'
     
+class User(db.Model):
+    __tablename__ = 'users'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(30), nullable=False)
+    password = db.Column(db.String(30), nullable=False)
+
+    def __repr__(self):
+        return f'<User {User.id} {User.name} {User.password}>'
+    
 with app.app_context():
     db.create_all()
 
 @app.route('/')
 def index():
-    return render_template('index.html', data = Todo.query.all())
+    return render_template('index.html')
+
+@app.route('/createUser')
+def createUser():
+    name = request.args.get('username')
+    password = request.args.get('password')
+    user = User(name = name, password = password)
+    db.session.add(user)
+    db.session.commit()
+    return 'user created!'
 
 
 app.run(debug=True)
